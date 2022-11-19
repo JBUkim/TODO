@@ -1,12 +1,30 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404, redirect
-from core.models import Profile, Post, LikePost, FollowersCount
+from core.models import Profile, Post, LikePost, FollowersCount, Note, Task
 from django.contrib.auth.decorators import login_required
 from itertools import chain
 import random
+
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from core.serializers import NoteSerializer
+
+# 11/18
+from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
+from django.urls import reverse_lazy
+
+from django.contrib.auth.views import LoginView
+
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
+
+from .models import Task
 
 # Create your views here.
 
@@ -298,3 +316,157 @@ def aaa(request) :
   posts = Post.objects.all()
   return render(request, 'aaa.html', {'user_profile' : user_profile, 'posts': posts,
                 'suggestions_username_profile_list' : suggestions_username_profile_list,})
+
+# note
+@api_view(['GET'])
+def routes(request):
+  routes = [
+        {
+            'Endpoint': '/notes/',
+            'method': 'GET',
+            'body': None,
+            'description': 'Returns an array of notes'
+        },
+        {
+            'Endpoint': '/notes/id',
+            'method': 'GET',
+            'body': None,
+            'description': 'Returns a single note object'
+        },
+        {
+            'Endpoint': '/notes/create/',
+            'method': 'POST',
+            'body': {'body': ""},
+            'description': 'Creates new note with data sent in post request'
+        },
+        {
+            'Endpoint': '/notes/id/update/',
+            'method': 'PUT',
+            'body': {'body': ""},
+            'description': 'Creates an existing note with data sent in post request'
+        },
+        {
+            'Endpoint': '/notes/id/delete/',
+            'method': 'DELETE',
+            'body': None,
+            'description': 'Deletes and exiting note'
+        },
+    ]
+    
+  return Response(routes)
+
+
+@api_view(['GET'])
+def getNotes(request) :
+  notes = Note.objects.all()
+  serializer = NoteSerializer(notes, many=True)
+  return Response(serializer.data)
+
+@api_view(['GET'])
+def getNote(request, pk) :
+
+  notes = Note.objects.get(id=pk)
+  serializer = NoteSerializer(notes, many=False)
+  return Response(serializer.data)
+
+
+
+# task-list
+
+# 로그인/회원가입 사용x
+class CustomLoginView(LoginView) :
+  template_name = 'core/signin.html'
+  fields = '__all__'
+  redirect_authenticated_user = True
+
+  def get_success_url(self):
+    return reverse_lazy('tasks')
+
+class RegisterPage(FormView) :
+  template_name = 'core/signup.html'
+  form_class = UserCreationForm
+  redirect_authenticated_user = True
+  success_url = reverse_lazy('tasks')
+
+  def form_valid(self, form) :
+    user = form.save()
+    if user is not None:
+      login(self.request, user)
+    return super(RegisterPage, self).form_valid(form)
+  
+  def get(self, *args, **kwargs):
+    if self.request.user.is_authenticated:
+      return redirect('tasks')
+    return super(RegisterPage, self).get(*args, **kwargs)
+  
+
+# TaskList
+
+class TaskList(LoginRequiredMixin, ListView) :
+  model = Task
+  context_object_name = 'tasks'
+
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    context['tasks'] = context['tasks'].filter(user=self.request.user)
+    context['count'] = context['tasks'].filter(complete=False).count()
+
+    search_input = self.request.GET.get('search-area') or ""
+    if search_input:
+      context['tasks'] = context['tasks'].filter(title__icontains=search_input)
+
+      # #시작 단어로 검색
+      # context['tasks'] = context['tasks'].filter(title__startswith=search_input)
+    context['search_input'] = search_input
+    return context
+
+class TaskDetail(LoginRequiredMixin, DetailView) :
+  model = Task
+  context_object_name = 'task'
+  template_name = "core/task.html"
+
+class TaskCreate(LoginRequiredMixin, CreateView) :
+  model = Task
+  fields =  ['title', 'description', 'complete']
+  success_url = reverse_lazy('tasks')
+
+  def form_valid(self, form):
+    form.instance.user = self.request.user
+    return super(TaskCreate, self).form_valid(form)
+
+class TaskUpdate(LoginRequiredMixin, UpdateView) :
+  model = Task
+  fields =  ['title', 'description', 'complete']
+  success_url = reverse_lazy('tasks')
+
+class TaskDelete(LoginRequiredMixin, DeleteView) :
+  model = Task
+  context_object_name = 'task'
+  success_url = reverse_lazy('tasks')
+
+
+
+# Change Form
+
+# @login_required(login_url='signin')
+# def taskList(request) :
+#   user_object = User.objects.get(username=request.user.username)
+#   user_profile = Profile.objects.get(user=user_object)
+
+#   task_title = Task.objects.get(title=request.user.title)
+#   user_title = Task.objects.get(title=task_title)
+
+#   return render(request, 'task_list.html', { 'user_profile' : user_profile, 'user_title': user_title })
+
+
+  # if request.method == 'POST':
+  #   user = request.user.username
+  #   title = request.POST['title']
+  #   description = request.POST['description']
+
+  #   new_task = Task.objects.create(user=user, title=title, description=description)
+  #   new_task.save()
+    
+  #   return redirect('/task2')
+  # else:
+  #   return redirect('/task2')
