@@ -5,96 +5,64 @@
 
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="{% static 'images/fav.png' %}" rel="icon" type="image/png">
-    <title> {% block title %} Home {% endblock %}</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- Scripts -->
-    <script src="{% static 'assets/js/uikit.js' %}"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="{% static 'assets/js/uikit.js' %}"></script>
-    <script src="{% static '../../unpkg.com/ionicons%405.2.3/dist/ionicons.js' %}"></script>
-    <!-- Links -->
-    <link rel="stylesheet" href="{% static 'assets/css/icons.css' %}" />
-    <link rel="stylesheet" href="{% static 'assets/css/uikit.css' %}" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Home</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <link rel="stylesheet" href="{% static 'assets/css/icons.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/uikit.css' %}">
 </head>
 
-<body class="bg-gray-100">
-    <!-- Header-->
-        <header>
-            <div class="bg-white shadow dark:bg-gray-800">
-                <div class="max-w-6xl mx-auto">
-                    <div class="flex -mx-4 items-center justify-between relative">
-                        <!-- Logo -->  
-                        <div class="px-4 w-60 max-w-full">
-                            <a href="/">
-                                <b><h1 style="font-size: 1.5rem">To Do List</h1></b>
+<body>
+
+            <header>
+                <div class="header_inner">
+                    <form action="/search" method="POST">
+                        {% csrf_token %}
+                    <div class="left-side">
+                        <!-- Logo -->
+                        <div id="logo" class="uk-hidden@s">
+                            <a href="home.html">
+                                <b><h1 style="text-transform: uppercase;">To Do List</h1></b>
                             </a>
                         </div>
+                            <input type="text" name="username" placeholder="Search for username..">&nbsp; &nbsp;
+                            <button type="submit"><i class="fa fa-search fa-1x"></i></button>
+                    </div>
+                    </form>
 
+                <div class="right-side lg:pr-4">
 
-                        
-                        <!-- Search Bar -->
-                        <div class="relative inline-block text-left p-2">
-                            <div class="">
-                                <form action="/search" method="POST">
-                                    {% csrf_token %}
-                                    <div class="">
-                                        <input type="text" name="username" placeholder="Search for username..."
-                                        class="placeholder:italic
-                                        bg-gray-100 border border-slate-300 rounded-md 
-                                        py-2 pl-5 pr-3
-                                        shadow-sm 
-                                        focus:outline-none
-                                        focus:border-sky-300 
-                                        focus:ring-sky-300 focus:ring-1">
+                    <!-- Go Tasks -->
+                    <a href="/tasks"
+                        class="bg-pink-500 flex font-bold hidden hover:bg-pink-600 hover:text-white inline-block items-center lg:block max-h-10 mr-4 px-4 py-2 rounded shado text-white">
+                        <ion-icon name="add-circle" class="-mb-1
+                        mr-1 opacity-90 text-xl uilus-circle"></ion-icon> Go Tasks
+                    </a>
 
-                                        <button type="submit"><i class="fa fa-search fa-1x"></i></button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        
-                        <!-- Go Tasks -->
-                        <div class="p-2">
-                        <a href="/tasks"
-                            class="blue-500 px-6 py-3 text-base
-                            shadow font-medium text-white
-                            bg-blue-500 bg-opacity-90
-                            rounded-lg
-                            hover:bg-opacity-100 hover:text-dark
-                            duration-300
-                            ease-in-out
-                            focus:ring focus:ring-blue-500"
-                            data-ripple-light="true"
-                            >Go Tasks</a>
-                        </div>
-                            
-                        <!-- Upload -->
-                        <div class="p-2">
-                        <a href="#"
-                            class="blue-500 px-6 py-3 text-base
-                            shadow font-medium text-white
-                            bg-blue-500 bg-opacity-90
-                            rounded-lg
-                            hover:bg-opacity-100 hover:text-dark
-                            duration-300
-                            ease-in-out
-                            focus:ring focus:ring-blue-500"
-                            data-ripple-light="true">Upload Pics</a>
+                    <!-- upload -->
+                    <a href="#"
+                        class="bg-pink-500 flex font-bold hidden hover:bg-pink-600 hover:text-white inline-block items-center lg:block max-h-10 mr-4 px-4 py-2 rounded shado text-white">
+                        <ion-icon name="add-circle" class="-mb-1
+                        mr-1 opacity-90 text-xl uilus-circle"></ion-icon> Upload Pics
+                    </a>
+                    <!-- upload dropdown box -->
+                    <div uk-dropdown="pos: top-right;mode:click ; animation: uk-animation-slide-bottom-small" class="header_dropdown">
 
-                        <!-- upload dropdown box -->
-                        <div uk-dropdown="pos: top-right;mode:click ; animation: uk-animation-slide-bottom-small" class="header_dropdown">
                         <!-- notivication header -->
-                        <div class="px-6 py-4 -mx-5 -mt-4 mb-5 border-b text-xl font-mono">
+                        <div class="px-4 py-3 -mx-5 -mt-4 mb-5 border-b">
                             <h4>Upload Pics</h4>
                         </div>
-                        <!-- contents -->
+
+                        <!-- notification contents -->
                         <div class="flex justify-center flex-center text-center">
+
                             <div class="flex flex-col choose-upload text-center">
+                            
                                 <div class="bg-gray-100 border-2 border-dashed flex flex-col h-24 items-center justify-center relative w-full rounded-lg  ">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-12">
                                         <path d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 13H11V9.413l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13H5.5z" />
@@ -104,74 +72,73 @@
 
                                 <form action="upload" method="POST" enctype="multipart/form-data" >
                                 {% csrf_token %}
-                                <p class="my-3 leading-6 font-mono"> Upload pics </p>
+                                <p class="my-3 leading-6"> Upload pics
+                                </p>
                                 <div>
                                     <input type="file" name="image_upload"
-                                        class="block text-lg text-slate-500
+                                        class="block w-full text-sm text-slate-500
                                         file:mr-4 file:py-2 file:px-4
                                         file:rounded-full file:border-0
                                         file:text-sm file:font-semibold
                                         file:bg-blue-50 file:text-blue-700
                                         hover:file:bg-blue-100" />
-                                    
-                                    <textarea name="caption" placeholder="caption..." rows="5"
-                                    class="block bg-gray-100 w-full border border-slate-300 rounded-md 
-                                    py-2 pl-10 pr-3
-                                    shadow-sm mt-5
-                                    focus:outline-none
-                                    focus:border-sky-300 
-                                    focus:ring-sky-300 focus:ring-1
-                                    placeholder:text-slate-400"> </textarea>
+                                    <textarea class="button soft-warning small" name="caption" placeholder="caption..." ></textarea>
                                     <br>
-                                    <button type="submit"
-                                    class="blue-500 px-4 py-2 
-                                    text-base
-                                    shadow
-                                    font-medium
-                                    text-white
-                                    bg-blue-500 bg-opacity-90
-                                    rounded-lg
-                                    hover:bg-opacity-100 hover:text-dark
-                                    duration-300
-                                    ease-in-out
-                                    focus:ring 
-                                    focus:ring-blue-500"
-                                    data-ripple-light="true">Upload</button>
+                                    <button class="button bg-blue-700" type="submit" >Upload</button>
                                 </div>
                                 </form>
                             </div>
+
+                            <div class="uk-flex uk-flex-column choose-upload" hidden>
+                                <div class="mx-auto flex flex-col h-24 items-center justify-center relative w-full rounded-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-12">
+                                        <path fill-rule="evenodd" d="M2 9.5A3.5 3.5 0 005.5 13H9v2.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 15.586V13h2.5a4.5 4.5 0 10-.616-8.958 4.002 4.002 0 10-7.753 1.977A3.5 3.5 0 002 9.5zm9 3.5H9V8a1 1 0 012 0v5z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <p class="my-3 leading-6"> Import videos from YouTube <br> Copy / Paste your video link here </p>
+                                <form class="uk-grid-small" uk-grid>
+                                    <div class="uk-width-expand">
+                                        <input type="text" class="uk-input uk-form-small  bg-gray-200 " style="box-shadow:none" placeholder="Paste link">
+                                    </div>
+                                    <div class="uk-width-auto"> <button type="submit" class="button soft-warning -ml-2">
+                                            Import </button> </div>
+                                </form>
+                                <a href="#" class="uk-text-muted mt-3 uk-link"
+                                    uk-toggle="target: .choose-upload ; animation: uk-animation-slide-left-small, uk-animation-slide-right-medium; queued: true">
+                                    Or Upload Video </a>
+                            </div>
+
                         </div>
                         <div class="px-4 py-3 -mx-5 -mb-4 mt-5 border-t text-sm">
                             Your Image size Must be Maxmium 999MB
                         </div>
                     </div>
-                </div>
 
-                <!-- profile -->
-                    <div class="p-2">
+                        <!-- profile -->
+
                         <a href="#">
-                            <img src="{{user_profile.profileimg.url}}" class="h-10 w-10 object-cover rounded-full" alt="">
+                            <img src="{{user_profile.profileimg.url}}" class="header-avatar" alt="">
                         </a>
-                        <div uk-drop="mode: click;offset:10"
-                        class="bg-white w-56 shadow-md mx-auto p-2 mt-12 rounded-md text-gray-500 hidden text-base border border-gray-100">
+                        <div uk-drop="mode: click;offset:9" class="header_dropdown profile_dropdown border-t">
                             <ul>
-                                <li><a class="flex items-center px-3 py-2 hover:bg-blue-100 hover:text-blue-500 rounded-md" href="/settings"> Account setting</a></li>
-                                <li><a class="flex items-center px-3 py-2 hover:bg-blue-100 hover:text-blue-500 rounded-md" href="/profile/{{user_profile.user.username}}"> Profile </a></li>
-                                <li><a class="flex items-center px-3 py-2 hover:bg-blue-100 hover:text-blue-500 rounded-md" href="logout"> Log Out </a></li>
+                                <li><a href="/settings"> Account setting </a> </li>
+                                <li><a href="/profile/{{user_profile.user.username}}"> Profile </a></li>
+                                <!-- <li><a href="explore.html">explore </a> </li>
+                                <li><a href="#"> Help </a> </li> -->
+                                <li><a href="logout"> Log Out </a></li>
                             </ul>
                         </div>
                     </div>
-
-            
-        </div>
-</header>
-
-
+                </div>
+            </header>
 
             <div class="container m-auto">
+
                 <div class="lg:flex justify-center lg:space-x-10 lg:space-y-0 space-y-5">
+
                     <!-- left sidebar-->
                     <div class="space-y-5 flex-shrink-0 lg:w-7/12">
+
                         <!-- post 1-->
                         {% for post in posts reversed %}                        
                         <div class="bg-white shadow rounded-md  -mx-2 lg:mx-0">
@@ -180,22 +147,25 @@
                             <div class="flex justify-between items-center px-4 py-3">
                                 <div class="flex flex-1 items-center space-x-4">
                                     <a href="/profile/{{post.user}}">
-                                        <div class="bg-gradient-to-tr from-yellow-600 to-pink-600 p-0.5 rounded-full">
+                                        <div class="bg-gradient-to-tr from-yellow-600 to-pink-600 p-0.5 rounded-full">  
+                                            <!-- <img src="{{post.user_profile.profileimg.url}}" class="bg-gray-200 border border-white rounded-full w-8 h-8"> -->
                                         </div>
                                     </a>
                                     <span class="block capitalize font-semibold "> <a href="/profile/{{post.user}}">@{{post.user}}</a> </span>
                                 </div>
-                                <div>
+                            <div>
                                 <a href="#"> <i class="icon-feather-more-horizontal text-2xl hover:bg-gray-200 rounded-full p-2 transition -mr-1 "></i> </a>
-                                <div class="bg-white w-56 shadow-md mx-auto p-2 mt-12 rounded-md text-gray-500 hidden text-base border border-gray-100  " uk-drop="mode: hover;pos: top-right">
-
+                                <div class="bg-white w-56 shadow-md mx-auto p-2 mt-12 rounded-md text-gray-500 hidden text-base border border-gray-100 " 
+                                uk-drop="mode: hover;pos: top-right">
                                     <ul class="space-y-1">
                                         <li> 
-                                        <a href="#" class="flex items-center px-3 py-2 text-red-500 hover:bg-red-100 hover:text-red-500 rounded-md">
-                                            <i class="uil-trash-alt mr-1"></i> Delete </a> 
+                                            <a href="#" class="flex items-center px-3 py-2 text-red-500 hover:bg-red-100 hover:text-red-500 rounded-md ">
+                                                <i class="uil-trash-alt mr-1"></i>  Delete
+                                            </a> 
                                         </li>
                                     </ul>
-                                    </div>
+                                
+                                </div>
                                 </div>
                             </div>
     
@@ -205,7 +175,9 @@
                                 </a>
                             </div>
                             
+                            
                             <div class="py-3 px-4 space-y-3"> 
+                            
                                 <div class="flex space-x-4 lg:font-bold">
                                     <a href="/like-post?post_id={{post.id}}" class="flex items-center space-x-2">
                                         <div class="p-2 rounded-full text-black">
@@ -220,7 +192,9 @@
                                             <p>Liked by {{post.no_of_likes}} people</p>
                                             {% endif %}   
                                         </div>
+                                        
                                     </a>
+
                                     <a href="{{post.image.url}}" class="flex items-center space-x-2 flex-1 justify-end" download>
                                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="25" height="25" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16"><g fill="currentColor"><path d="M8.5 1.5A1.5 1.5 0 0 1 10 0h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h6c-.314.418-.5.937-.5 1.5v6h-2a.5.5 0 0 0-.354.854l2.5 2.5a.5.5 0 0 0 .708 0l2.5-2.5A.5.5 0 0 0 10.5 7.5h-2v-6z"/></g></svg>
                                         
@@ -231,13 +205,13 @@
                                     <a class="items-center text-xl" href="/profile/{{post.user}}"> <strong>{{post.user}}</strong> </a> {{post.caption}} 
                                 </p>
                             
-                                <!-- <div class="bg-gray-100 bg-gray-100 rounded-full rounded-md relative ">
+                                <div class="bg-gray-100 bg-gray-100 rounded-full rounded-md relative ">
                                     <input type="text" placeholder="post a comment" class="bg-transparent max-h-10 shadow-none">
                                     <div class="absolute bottom-0 flex h-full items-center right-0 right-3 text-xl space-x-2">
                                         <a href="#"> <i class="uil-image"></i></a>
                                         <a href="#"> <i class="uil-video"></i></a>
                                     </div>
-                                </div> -->
+                                </div>
     
                             </div>
     
@@ -269,12 +243,7 @@
                                         </div>
                                     </div>
                                     
-                                    <a href="/profile/{{suggestion.user}}" 
-                                    class="border border-gray-200 font-semibold px-4 py-2 rounded-full 
-                                    hover:bg-blue-500 hover:text-white hover:border-blue-500
-                                    text-base shadow duration-300 ease-in-out
-                                    focus:border focus:border-blue-300
-                                    focus:ring focus:ring-blue-300"> Follow </a>
+                                    <a href="/profile/{{suggestion.user}}" class="border border-gray-200 font-semibold px-4 py-1 rounded-full hover:bg-pink-600 hover:text-white hover:border-pink-600 "> Follow </a>
                                 </div>
                                 
                                 {% endfor %}
@@ -283,26 +252,16 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                            
+                </div>               
             </div>
         </div>
     </div>
-<!-- Footer -->
 
-    <div class="lg:mb-5 py-3 uk-link-reset">
-        <div
-        class="flex flex-col items-center justify-between lg:flex-row max-w-6xl mx-auto lg:space-y-0 space-y-3"
-        >
-        <div class="flex space-x-2 text-gray-700 uppercase">
-            <a href="/about">About</a>
-        </div>
-        <p class="capitalize">© copyright 2022 by Team TODO</p>
-        </div>
-        </div>
-    </div>
-
-
+<!-- Scripts
+    ================================================== -->
+    <script src="{% static 'assets/js/uikit.js' %}"></script>
+    <script src="{% static 'assets/js/simplebar.js' %}"></script>
+    <script src="{% static '../../unpkg.com/ionicons%405.2.3/dist/ionicons.js' %}"></script>
 </body>
 
 
