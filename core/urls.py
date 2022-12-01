@@ -32,4 +32,12 @@ urlpatterns = [
   path('task-delete/<int:pk>/', TaskDelete.as_view(), name='task-delete'),
 
   # path('task2', views.taskList, name='tasks2'),
+  
+  path("calendar/", views.calendar, name="calendar"),
+  path("create-template/", views.create_template, name="create-template"),
+  path("delete-template/", views.delete_template, name="delete-template"),
+  path("create-event/", views.create_event, name="create-event"),
+  path("get-events/", views.get_events, name="get-events"),
+  path("delete-event/", views.delete_event, name="delete-event"),
+  path("day-plan/", views.day_plan, name="day-plan"),
   ]

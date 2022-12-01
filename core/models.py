@@ -63,3 +63,15 @@ class Task(models.Model):
     
     class Meta :
         ordering = ['complete']
+        
+
+class Templates(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    name = models.CharField(max_length=200)
+    notes = models.CharField(max_length=200, blank=True)
+
+class Event(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    name = models.CharField(max_length=200)
+    notes = models.CharField(max_length=200, blank=True)
+    date = models.DateField(null=True, blank=True)

@@ -2,209 +2,172 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="" />
-    <meta name="keywords" content="" />
-    <title>Profile - {{user_profile.user.username}}</title>
-    <!-- <link rel="icon" href="images/fav.png" type="image/png" sizes="16x16"> -->
+    <link href="{% static 'images/fav.png' %}" rel="icon" type="image/png">
+    <title> {% block title %} Home {% endblock %}</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Scripts -->
+    <script src="{% static 'assets/js/uikit.js' %}"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="{% static 'assets/js/uikit.js' %}"></script>
+    <script src="{% static '../../unpkg.com/ionicons%405.2.3/dist/ionicons.js' %}"></script>
+    <!-- Links -->
+    <link rel="stylesheet" href="{% static 'assets/css/icons.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/uikit.css' %}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
 
-    <link rel="stylesheet" href="{% static 'css/main.min.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/color.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/responsive.css' %}" />
-  </head>
-  <body>
-    <!--<div class="se-pre-con"></div>-->
-    <div class="theme-layout"></div>
-
-    <section>
-      <div class="feature-photo">
-        <figure>
-          <img src="{% static 'images/resources/timeline-1.jpg' %}" alt="" />
-        </figure>
-        <form action="/follow" method="POST">
-          {% csrf_token %}
-          <div class="add-btn">
-            <span style="color: white; font-size: 27px"
-              ><b
-                ><u><a href="/">Go Home</a></u></b
-              ></span
-            >
-
-            {% if user_post_length == 0 %}
-            <span style="color: white; font-size: 27px"><b> No Post</b></span>
-            {% elif user_post_length == 1 %}
-            <span style="color: white; font-size: 27px"
-              ><b>{{user_post_length}} Post</b></span
-            >
-            {% else %}
-            <span style="color: white; font-size: 27px"
-              ><b>{{user_post_length}} Posts</b></span
-            >
-            {% endif %} {% if user_followers == 0 or user_followers == 1 %}
-            <span style="color: white; font-size: 27px"
-              ><b>{{user_followers}} follower</b></span
-            >
-            {% else %}
-            <span style="color: white; font-size: 27px"
-              ><b>{{user_followers}} followers</b></span
-            >
-            {% endif %}
-            <span style="color: white; font-size: 27px"
-              ><b>{{user_following}} following</b></span
-            >
-            <input type="hidden" value="{{user.username}}" name="follower" />
-            <input type="hidden" value="{{user_object.username}}" name="user" />
-            {% if user_object.username == user.username %}
-            <a href="/settings" data-ripple=""> Account Settings </a>
-            {% else %}
-            <a data-ripple="">
-              <button
-                style="background-color: #ffc0cb; border: #ffc0cb"
-                type="submit"
-              >
-                {{button_text}}
-              </button>
+  <!-- Header-->
+    <div class="bg-white py-4 shadow dark:bg-gray-800">
+        <div class="max-w-6xl mx-auto">
+        <div class="flex items-center lg:justify-between justify-around">
+            <a href="/">
+            <b><h1 style="font-size: 1.5rem">To Do List</h1></b>
             </a>
-            {% endif %}
-          </div>
-        </form>
-
-        <!-- <form class="edit-phto">
-					<i class="fa fa-camera-retro"></i>
-					<label class="fileContainer">
-						Upload Cover Photo
-					<input type="file"/>
-					</label>
-				</form> -->
-        <div class="container-fluid">
-          <div class="row merged">
-            <div class="col-lg-2 col-sm-3">
-              <div class="user-avatar">
-                <figure>
-                  <img
-                    src="{{user_profile.profileimg.url}}"
-                    style="height: 250px; width: 100%"
-                    alt=""
-                  />
-                  <form class="edit-phto">
-                    <i class="fa fa-camera-retro"></i>
-                    <label class="fileContainer">
-                      <a href="/settings">Upload Profile Photo</a>
-                    </label>
-                  </form>
-                </figure>
-              </div>
+            <div class="capitalize flex font-semibold hidden lg:block my-2 space-x-3 text-center text-sm">
+            <a
+                href="/"
+                class="blue-500 px-6 py-3 
+                text-base
+                shadow
+                font-medium
+                text-white
+                bg-blue-500 bg-opacity-90
+                rounded-lg
+                hover:bg-opacity-100 hover:text-dark
+                signUpBtn
+                duration-300
+                ease-in-out
+                focus:ring focus:ring-blue-500"
+                data-ripple-light="true"
+                >Go Home</a>
             </div>
-            <div class="col-lg-10 col-sm-9">
-              <div class="timeline-info">
-                <ul>
-                  <li class="admin-name">
-                    <h5
-                      style="
-                        color: black;
-                        white-space: nowrap;
-                        width: 110px;
-                        font-size: 27px;
-                      "
-                    >
-                      <b>@{{user_profile.user.username}}</b
-                      ><!--<i class="fa fa-check-circle" style="color: #48dbfb;" aria-hidden="true"></i>-->
-                    </h5>
-                    <!--<span>Group Admin</span>-->
-                  </li>
-                  <!--<li>
-										<a class="" href="javascript:void(0)" title="" data-ripple="">Go live!</a>
-										<a class="" href="javascript:void(0)" title="" data-ripple="">Music</a>
-										<a class="" href="emporium/index-3.html" title="" data-ripple="">Emporium</a>
-										<a class="" href="fitness/index.html" title="" data-ripple="">Health Inspection</a>
-										<a class="" href="settings/account-setting.html" title="" data-ripple="">Settings</a>
-										<a class="" href="javascript:void(0)" title="" data-ripple="">Upload</a>
-										<a class="" href="time-line.html" title="" data-ripple="">time line</a>
-										<a class="" href="timeline-photos.html" title="" data-ripple="">Photos</a>
-										<a class="" href="timeline-videos.html" title="" data-ripple="">Videos</a>
-										<a class="" href="timeline-friends.html" title="" data-ripple="">Friends</a>
-										<a class="" href="timeline-groups.html" title="" data-ripple="">Groups</a>
-										<a class="" href="about.html" title="" data-ripple="">about</a>
-										<a class="" href="#" title="" data-ripple="">more</a>
+        </div>
+        </div>
+    </div>
 
-									</li>-->
-                </ul>
-              </div>
-            </div>
+
+    <!-- content -->
+    <body class="bg-gray-100">
+      <div class="container m-auto my-6 max-w-6xl">
+
+      <div class="lg:flex justify-center lg:space-x-10 lg:space-y-0 space-y-5">
+      <!-- Profile section: Left -->
+        <div class="space-y-5 flex-shrink-0 lg:w-5/12" >
+          <div class="h-60 flex items-center justify-center m-auto">
+            <figure class="">
+              <img class="h-60 w-60 rounded-3xl" src="{{user_profile.profileimg.url}}"/>
+              <!-- <form class="">
+                <i class="fa fa-camera-retro"></i>
+                <label class="">
+                  <a href="/settings">Upload Profile Photo</a>
+                </label>
+              </form> -->
+            </figure>
           </div>
         </div>
-      </div>
-    </section>
-    <!-- top area -->
-    <section>
-      <div class="bio">{{user_profile.bio}}</div>
-    </section>
 
-    <section>
-      <div class="gap gray-bg">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="row" id="page-contents">
-                <div class="col-lg-3">
-                  <aside class="sidebar static"></aside>
-                </div>
-                <!-- sidebar -->
-
-                <div class="col-lg-6">
-                  <div class="central-meta">
-                    <ul class="photos">
-                      {% for post in user_posts reversed %}
-                      <li>
-                        <a
-                          class="strip"
-                          href="{{post.image.url}}"
-                          title=""
-                          data-strip-group="mygroup"
-                          data-strip-group-options="loop: false"
-                        >
-                          <img
-                            src="{{post.image.url}}"
-                            style="height: 300%; width: 300%"
-                            alt=""
-                        /></a>
-                      </li>
-                      {% endfor %}
-                      <!-- <li>
-											<a class="strip" href="https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png" title="" data-strip-group="mygroup" data-strip-group-options="loop: false">
-												<img src="https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png" style="height: 250px; width: 300px;" alt=""></a>
-										</li>
-
-										<li>
-											<a class="strip" href="https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png" title="" data-strip-group="mygroup" data-strip-group-options="loop: false">
-												<img src="https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png" style="height: 250px; width: 300px;" alt=""></a>
-										</li>
-										-->
-                    </ul>
-                    <!--<div class="lodmore"><button class="btn-view btn-load-more"></button></div>-->
-                  </div>
-                  <!-- photos -->
-                </div>
-                <!-- centerl meta -->
-                <div class="col-lg-3">
-                  <aside class="sidebar static"></aside>
-                </div>
-                <!-- sidebar -->
+          <!-- Profile section: Right -->
+          <div class="lg:w-7/12 h-60 ">
+            <div class="">
+              <div>
+                <h5 class="text-4xl ml-2">
+                  <b>@{{user_profile.user.username}}</b>
+                </h5>
               </div>
-            </div>
+          <!-- Bio section -->
+            <div class="text-2xl mt-5 ml-2 h-24 overflow-hidden">{{user_profile.bio}}</div>
           </div>
-        </div>
-      </div>
-    </section>
 
-    <script
-      data-cfasync="false"
-      src="{% static '../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js' %}"
-    ></script>
-    <script src="{% static 'js/main.min.js' %}"></script>
-    <script src="{% static 'js/script.js' %}"></script>
+        <!-- Count section -->
+        <div class="mt-8">
+          <form action="/follow" method="POST" class="text-2xl">
+            {% csrf_token %}
+            <div class=" h-10 flex items-center justify-start">
+              {% if user_post_length == 0 %}
+              <span class="mx-2"><b> No Post</b></span>
+              {% elif user_post_length == 1 %}
+              <span class="mx-2"><b>{{user_post_length}} Post</b></span>
+              {% else %}
+              <span class="mx-2"><b>{{user_post_length}} Posts</b></span>
+              {% endif %} {% if user_followers == 0 or user_followers == 1 %}
+              <span class="mx-2"><b>{{user_followers}} follower</b></span>
+              {% else %}
+              <span class="mx-2"><b>{{user_followers}} followers</b></span>
+              {% endif %}
+              <span class="mx-2"><b>{{user_following}} following</b></span>
+
+              <input type="hidden" value="{{user.username}}" name="follower" class="mx-2" />
+              <input type="hidden" value="{{user_object.username}}" name="user" class="mx-2" />
+              {% if user_object.username == user.username %}
+              <a href="/settings" data-ripple=""  class="blue-500 px-4 py-2 
+                                    text-base
+                                    shadow
+                                    font-medium
+                                    text-white
+                                    bg-blue-500 bg-opacity-90
+                                    rounded-lg
+                                    hover:bg-opacity-100 hover:text-dark
+                                    duration-300
+                                    ease-in-out
+                                    focus:ring 
+                                    focus:ring-blue-500 mx-2"> Account Settings </a>
+              {% else %}
+              <a data-ripple=""  class="blue-500 px-4 py-2 
+                                    text-base
+                                    shadow
+                                    font-medium
+                                    text-white
+                                    bg-blue-500 bg-opacity-90
+                                    rounded-lg
+                                    hover:bg-opacity-100 hover:text-dark
+                                    duration-300
+                                    ease-in-out
+                                    focus:ring 
+                                    focus:ring-blue-500
+                                    mx-2">
+                <button type="submit"> {{button_text}} </button>
+              </a>
+              {% endif %}
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+    <!-- Post Section -->
+    <section class="container m-auto my-6 max-w-6xl">
+        <div class="bg-white rounded-md lg:shadow-lg shadow mt-12">
+          <ul class="grid grid-cols-4">
+            {% for post in user_posts reversed %}
+            <li class="">
+              <a class="m-5 flex items-center" href="{{post.image.url}}" title="">
+                <img src="{{post.image.url}}" alt=""
+                class="h-56 w-56"/>
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+    </section>
+  </div>
+  
   </body>
+
+<!-- Footer -->
+    <div class="lg:mb-5 py-3 uk-link-reset">
+        <div class="flex flex-col items-center justify-between lg:flex-row max-w-6xl mx-auto lg:space-y-0 space-y-3">
+        <div class="flex space-x-2 text-gray-700 uppercase">
+            <a href="/about">About</a>
+        </div>
+        <p class="capitalize">© copyright 2022 by Team TODO</p>
+        </div>
+        </div>
+    </div>
+
 </html>

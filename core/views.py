@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from django.http import HttpResponse
-from core.models import Profile, Post, LikePost, FollowersCount, Note, Task
+from core.models import Profile, Post, LikePost, FollowersCount, Note, Task, Templates, Event
 from django.contrib.auth.decorators import login_required
 from itertools import chain
 import random
@@ -25,6 +25,10 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 
 from .models import Task
+
+import json
+import datetime
+from django.http import JsonResponse
 
 # Create your views here.
 
@@ -373,7 +377,7 @@ def getNote(request, pk) :
 
 # task-list
 
-# 로그인/회원가입 사용x
+# 로그인/회원가입 사용 x
 class CustomLoginView(LoginView) :
   template_name = 'core/signin.html'
   fields = '__all__'
@@ -445,28 +449,66 @@ class TaskDelete(LoginRequiredMixin, DeleteView) :
   success_url = reverse_lazy('tasks')
 
 
+##
 
-# Change Form
+@login_required(login_url='signin')
+def calendar(request):
+    user = request.user
+    templates = Templates.objects.filter(user=user)
+    return render(request, "calendar.html", {"templates": templates})
 
-# @login_required(login_url='signin')
-# def taskList(request) :
-#   user_object = User.objects.get(username=request.user.username)
-#   user_profile = Profile.objects.get(user=user_object)
+@login_required(login_url='signin')
+def create_template(request):
+    if request.method == "GET":
+        user = request.user
+        name = request.GET['name']
+        notes = request.GET['notes']
+        Templates.objects.create(user=user, name=name, notes=notes)
+    return redirect("calendar")
 
-#   task_title = Task.objects.get(title=request.user.title)
-#   user_title = Task.objects.get(title=task_title)
+@login_required(login_url='signin')
+def delete_template(request):
+    if request.method == "POST":
+        user = request.user
+        data = json.loads(request.body)
+        templateId = data["templateId"]
+        Templates.objects.get(user=user, id=templateId).delete()
+        return redirect("calendar")
 
-#   return render(request, 'task_list.html', { 'user_profile' : user_profile, 'user_title': user_title })
+@login_required(login_url='signin')
+def create_event(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        templateId = data["templateId"]
+        date = data["date"]
+        user = request.user
+        template = Templates.objects.get(id=templateId)
+        name = template.name
+        notes = template.notes
+        Event.objects.create(user=user, name=name, notes=notes, date=date)
+    return JsonResponse({"message": "Event successfuly added"})
 
+@login_required(login_url='signin')
+def get_events(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        month = data["month"]
+        user = request.user
+        events = list(Event.objects.filter(user_id__exact=user.id).filter(date__month__exact=month).values())
+        return JsonResponse({'events': events,})
 
-  # if request.method == 'POST':
-  #   user = request.user.username
-  #   title = request.POST['title']
-  #   description = request.POST['description']
+@login_required(login_url='signin')
+def delete_event(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        id = data["eventId"]
+        user = request.user
+        Event.objects.get(user=user, id=id).delete()
+        return JsonResponse({"message": "You have successfuly deleted an event"})
 
-  #   new_task = Task.objects.create(user=user, title=title, description=description)
-  #   new_task.save()
-    
-  #   return redirect('/task2')
-  # else:
-  #   return redirect('/task2')
+@login_required(login_url='signin')
+def day_plan(request):
+    user = request.user
+    date = datetime.date.today()
+    events = Event.objects.filter(user=user, date=date)
+    return render(request, "dayplan.html", {"events": events})

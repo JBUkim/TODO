@@ -27,9 +27,9 @@
         <header>
             <div class="bg-white shadow dark:bg-gray-800">
                 <div class="max-w-6xl mx-auto">
-                    <div class="flex -mx-4 items-center justify-between relative">
+                    <div class="flex -mx-4 items-center justify-end">
                         <!-- Logo -->  
-                        <div class="px-4 w-60 max-w-full">
+                        <div class="px-4 w-60 max-w-full mr-auto px-4">
                             <a href="/">
                                 <b><h1 style="font-size: 1.5rem">To Do List</h1></b>
                             </a>
@@ -38,7 +38,7 @@
 
                         
                         <!-- Search Bar -->
-                        <div class="relative inline-block text-left p-2">
+                        <div class="p-2 hidden sm:flex">
                             <div class="">
                                 <form action="/search" method="POST">
                                     {% csrf_token %}
@@ -51,7 +51,6 @@
                                         focus:outline-none
                                         focus:border-sky-300 
                                         focus:ring-sky-300 focus:ring-1">
-
                                         <button type="submit"><i class="fa fa-search fa-1x"></i></button>
                                     </div>
                                 </form>
@@ -59,7 +58,7 @@
                         </div>
                         
                         <!-- Go Tasks -->
-                        <div class="p-2">
+                        <div class="p-2 hidden sm:flex">
                         <a href="/tasks"
                             class="blue-500 px-6 py-3 text-base
                             shadow font-medium text-white
@@ -74,7 +73,7 @@
                         </div>
                             
                         <!-- Upload -->
-                        <div class="p-2">
+                        <div class="p-2 hidden sm:flex">
                         <a href="#"
                             class="blue-500 px-6 py-3 text-base
                             shadow font-medium text-white
@@ -89,7 +88,7 @@
                         <!-- upload dropdown box -->
                         <div uk-dropdown="pos: top-right;mode:click ; animation: uk-animation-slide-bottom-small" class="header_dropdown">
                         <!-- notivication header -->
-                        <div class="px-6 py-4 -mx-5 -mt-4 mb-5 border-b text-xl font-mono">
+                        <div class="px-6 py-4 -mx-5 -mt-4 mb-5 border-b text-xl font-mono text-center">
                             <h4>Upload Pics</h4>
                         </div>
                         <!-- contents -->
@@ -150,7 +149,7 @@
                 <!-- profile -->
                     <div class="p-2">
                         <a href="#">
-                            <img src="{{user_profile.profileimg.url}}" class="h-10 w-10 object-cover rounded-full" alt="">
+                            <img src="{{user_profile.profileimg.url}}" class="h-12 w-12 object-cover rounded-full" alt="">
                         </a>
                         <div uk-drop="mode: click;offset:10"
                         class="bg-white w-56 shadow-md mx-auto p-2 mt-12 rounded-md text-gray-500 hidden text-base border border-gray-100">
@@ -161,21 +160,18 @@
                             </ul>
                         </div>
                     </div>
+                </div>
+        </header>
 
-            
-        </div>
-</header>
+        <!-- Main contents -->
 
-
-
-            <div class="container m-auto">
+            <div class="container m-auto my-6 max-w-6xl">
                 <div class="lg:flex justify-center lg:space-x-10 lg:space-y-0 space-y-5">
                     <!-- left sidebar-->
                     <div class="space-y-5 flex-shrink-0 lg:w-7/12">
                         <!-- post 1-->
                         {% for post in posts reversed %}                        
                         <div class="bg-white shadow rounded-md  -mx-2 lg:mx-0">
-    
                             <!-- post header-->
                             <div class="flex justify-between items-center px-4 py-3">
                                 <div class="flex flex-1 items-center space-x-4">
@@ -199,9 +195,9 @@
                                 </div>
                             </div>
     
-                            <div uk-lightbox>
-                                <a href="{{post.image.url}}">  
-                                    <img src="{{post.image.url}}" alt="">
+                            <div uk-lightbox class="flex items-center justify-center">
+                                <a href="{{post.image.url}}" >  
+                                    <img src="{{post.image.url}}" alt="" class="">
                                 </a>
                             </div>
                             
@@ -230,7 +226,8 @@
                                 <p class="bg-gray-100 bg-gray-100 relative ">
                                     <a class="items-center text-xl" href="/profile/{{post.user}}"> <strong>{{post.user}}</strong> </a> {{post.caption}} 
                                 </p>
-                            
+            
+                                <!-- comment -->
                                 <!-- <div class="bg-gray-100 bg-gray-100 rounded-full rounded-md relative ">
                                     <input type="text" placeholder="post a comment" class="bg-transparent max-h-10 shadow-none">
                                     <div class="absolute bottom-0 flex h-full items-center right-0 right-3 text-xl space-x-2">
@@ -238,17 +235,15 @@
                                         <a href="#"> <i class="uil-video"></i></a>
                                     </div>
                                 </div> -->
-    
+
                             </div>
-    
                         </div>
                         {% endfor %}
-
                     </div>
 
                     <!-- right sidebar-->
                     <div class="lg:w-5/12">
-                        
+
                         <div class="bg-white  shadow-md rounded-md overflow-hidden">
 
                             <div class="bg-gray-50  border-b border-gray-100 flex items-baseline justify-between py-4 px-6 ">
@@ -261,7 +256,7 @@
                                 <div class="flex items-center justify-between py-3">
                                     <div class="flex flex-1 items-center space-x-4">
                                         <a href="/profile/{{suggestion.user}}">
-                                            <img src="{{suggestion.profileimg.url}}" class="bg-gray-200 rounded-full w-10 h-10">
+                                            <img src="{{suggestion.profileimg.url}}" class="bg-gray-200 rounded-full w-12 h-12">
                                         </a>
                                         <div class="flex flex-col">
                                             <span class="block capitalize font-semibold"> {{suggestion.user}} </span>
@@ -284,16 +279,13 @@
                         </div>
                     </div>
                 </div>
-                            
             </div>
         </div>
     </div>
-<!-- Footer -->
 
+<!-- Footer -->
     <div class="lg:mb-5 py-3 uk-link-reset">
-        <div
-        class="flex flex-col items-center justify-between lg:flex-row max-w-6xl mx-auto lg:space-y-0 space-y-3"
-        >
+        <div class="flex flex-col items-center justify-between lg:flex-row max-w-6xl mx-auto lg:space-y-0 space-y-3">
         <div class="flex space-x-2 text-gray-700 uppercase">
             <a href="/about">About</a>
         </div>
@@ -301,9 +293,5 @@
         </div>
         </div>
     </div>
-
-
 </body>
-
-
 </html>

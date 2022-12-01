@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Profile, Post, LikePost, FollowersCount, Note, Task
+from .models import Profile, Post, LikePost, FollowersCount, Note, Task, Templates, Event
 
 # Register your models here.
 admin.site.register(Profile)
@@ -11,3 +11,6 @@ admin.site.register(Note)
 
 # 11/18 추가
 admin.site.register(Task)
+
+admin.site.register(Templates)
+admin.site.register(Event)
