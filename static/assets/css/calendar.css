@@ -267,7 +267,7 @@ main {
     position: absolute;
     top: .5rem;
     left: .5rem;
-    padding: 12px;
+    padding: 20px;
     border-radius: 12px;
     transition: all 0.5s ease;
     cursor: pointer;
@@ -291,4 +291,28 @@ main {
 .form-container form {
     margin: 1%;
     padding: 1%;
+}
+
+.drop-container::-webkit-scrollbar {
+  display: none;
+}
+
+main::-webkit-scrollbar {
+  display: none;
+}
+
+.prev-date::-webkit-scrollbar {
+  display: none;
+}
+
+.next-date::-webkit-scrollbar {
+  display: none;
+}
+
+.event-container.expanded .accordian-panel::-webkit-scrollbar {
+  display: none;
+}
+
+.form-container::-webkit-scrollbar {
+  display: none;
 }

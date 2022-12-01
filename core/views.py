@@ -453,62 +453,63 @@ class TaskDelete(LoginRequiredMixin, DeleteView) :
 
 @login_required(login_url='signin')
 def calendar(request):
-    user = request.user
-    templates = Templates.objects.filter(user=user)
-    return render(request, "calendar.html", {"templates": templates})
+  user = request.user
+  templates = Templates.objects.filter(user = user)
+  return render(request, "calendar.html", {"templates": templates})
 
 @login_required(login_url='signin')
 def create_template(request):
-    if request.method == "GET":
-        user = request.user
-        name = request.GET['name']
-        notes = request.GET['notes']
-        Templates.objects.create(user=user, name=name, notes=notes)
-    return redirect("calendar")
+  if request.method == "GET":
+    user = request.user
+    name = request.GET['name']
+    notes = request.GET['notes']
+    Templates.objects.create(user=user, name=name, notes=notes)
+  return redirect("calendar")
 
 @login_required(login_url='signin')
 def delete_template(request):
-    if request.method == "POST":
-        user = request.user
-        data = json.loads(request.body)
-        templateId = data["templateId"]
-        Templates.objects.get(user=user, id=templateId).delete()
-        return redirect("calendar")
+  if request.method == "POST":
+    user = request.user
+    data = json.loads(request.body)
+    templateId = data["templateId"]
+    Templates.objects.get(user=user, id=templateId).delete()
+  return redirect("calendar")
 
 @login_required(login_url='signin')
 def create_event(request):
-    if request.method == "POST":
-        data = json.loads(request.body)
-        templateId = data["templateId"]
-        date = data["date"]
-        user = request.user
-        template = Templates.objects.get(id=templateId)
-        name = template.name
-        notes = template.notes
-        Event.objects.create(user=user, name=name, notes=notes, date=date)
-    return JsonResponse({"message": "Event successfuly added"})
+  if request.method == "POST":
+    data = json.loads(request.body)
+    templateId = data["templateId"]
+    date = data["date"]
+    user = request.user
+    template = Templates.objects.get(id=templateId)
+    name = template.name
+    notes = template.notes
+    get_Event = Event.objects.create(user=user, name=name, notes=notes, date=date)
+    get_Event.save()
+  return JsonResponse({"message": "Event successfuly added"})
 
 @login_required(login_url='signin')
 def get_events(request):
-    if request.method == "POST":
-        data = json.loads(request.body)
-        month = data["month"]
-        user = request.user
-        events = list(Event.objects.filter(user_id__exact=user.id).filter(date__month__exact=month).values())
-        return JsonResponse({'events': events,})
+  if request.method == "POST":
+    data = json.loads(request.body)
+    month = data["month"]
+    user = request.user
+    events = list(Event.objects.filter(user_id__exact=user.id).filter(date__month__exact=month).values())
+    return JsonResponse({'events': events})
 
 @login_required(login_url='signin')
 def delete_event(request):
-    if request.method == "POST":
-        data = json.loads(request.body)
-        id = data["eventId"]
-        user = request.user
-        Event.objects.get(user=user, id=id).delete()
-        return JsonResponse({"message": "You have successfuly deleted an event"})
+  if request.method == "POST":
+    data = json.loads(request.body)
+    id = data["eventId"]
+    user = request.user
+    Event.objects.get(user=user, id=id).delete()
+    return JsonResponse({"message": "You have successfuly deleted an event"})
 
 @login_required(login_url='signin')
 def day_plan(request):
-    user = request.user
-    date = datetime.date.today()
-    events = Event.objects.filter(user=user, date=date)
-    return render(request, "dayplan.html", {"events": events})
+  user = request.user
+  date = datetime.date.today()
+  events = Event.objects.filter(user=user, date=date)
+  return render(request, "dayplan.html", {"events": events})
