@@ -455,7 +455,12 @@ class TaskDelete(LoginRequiredMixin, DeleteView) :
 def calendar(request):
   user = request.user
   templates = Templates.objects.filter(user = user)
-  return render(request, "calendar.html", {"templates": templates})
+  user_profile = Profile.objects.get(user= user)
+
+  date = datetime.date.today()
+  events = Event.objects.filter(user=user, date=date)
+
+  return render(request, "calendar.html", {"templates": templates, 'user_profile' : user_profile, "events": events})
 
 @login_required(login_url='signin')
 def create_template(request):
@@ -485,8 +490,7 @@ def create_event(request):
     template = Templates.objects.get(id=templateId)
     name = template.name
     notes = template.notes
-    get_Event = Event.objects.create(user=user, name=name, notes=notes, date=date)
-    get_Event.save()
+    Event.objects.create(user=user, name=name, notes=notes, date=date)
   return JsonResponse({"message": "Event successfuly added"})
 
 @login_required(login_url='signin')

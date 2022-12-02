@@ -6,6 +6,7 @@ const formContainer = document.querySelector(".form-container");
 const exitButton = document.querySelector(".exit");
 const form = document.querySelector(".form-container form");
 const formHeader = document.querySelector(".form-header");
+let csrftoken = getCookie("csrftoken");
 let deleteTemplateButtons;
 
 let date = new Date();
@@ -220,6 +221,7 @@ function deleteTemplate(event) {
     body: JSON.stringify(data),
     headers: new Headers({
       "content-type": "application/json",
+      "X-CSRFToken": csrftoken,
     }),
   }).then(() => {
     window.location.reload();
@@ -273,6 +275,7 @@ function sendTemplateData(templateType, data) {
     cache: "no-cache",
     headers: new Headers({
       "content-type": "application/json",
+      "X-CSRFToken": csrftoken,
     }),
   }).then((res) => {
     res.json().then((resData) => {
@@ -299,6 +302,7 @@ function loadDataToCalendar(month) {
     cache: "no-cache",
     headers: new Headers({
       "content-type": "application/json",
+      "X-CSRFToken": csrftoken,
     }),
   }).then((res) => {
     res
@@ -346,6 +350,7 @@ function deleteEvent(event) {
     cache: "no-cache",
     headers: new Headers({
       "content-type": "application/json",
+      "X-CSRFToken": csrftoken,
     }),
   }).then((res) => {
     res.json().then((data) => {
@@ -353,6 +358,24 @@ function deleteEvent(event) {
       window.location.reload();
     });
   });
+}
+
+// The following function are copying from
+// https://docs.djangoproject.com/en/dev/ref/csrf/#ajax
+function getCookie(name) {
+  var cookieValue = null;
+  if (document.cookie && document.cookie !== "") {
+    var cookies = document.cookie.split(";");
+    for (var i = 0; i < cookies.length; i++) {
+      var cookie = cookies[i].trim();
+      // Does this cookie string begin with the name we want?
+      if (cookie.substring(0, name.length + 1) === name + "=") {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
 }
 
 function startApp() {

@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
-<body class="bg-gray-100">
+
     <!-- Header-->
         <header>
             <div class="bg-white shadow dark:bg-gray-800">
@@ -33,6 +33,8 @@
                             </a>
                         </div>
 
+
+                        
                         <!-- Search Bar -->
                         <div class="p-2 hidden sm:flex">
                             <div class="">
@@ -51,21 +53,6 @@
                                     </div>
                                 </form>
                             </div>
-                        </div>
-                        
-                        <!-- Go Tasks -->
-                        <div class="p-2 hidden sm:flex">
-                        <a href="/"
-                            class="blue-500 px-6 py-3 text-base
-                            shadow font-medium text-white
-                            bg-blue-500 bg-opacity-90
-                            rounded-lg
-                            hover:bg-opacity-100 hover:text-dark
-                            duration-300
-                            ease-in-out
-                            focus:ring focus:ring-blue-500"
-                            data-ripple-light="true"
-                            >Go Home</a>
                         </div>
                             
                         <!-- Upload -->
@@ -150,17 +137,20 @@
                         <div uk-drop="mode: click;offset:10"
                         class="bg-white w-56 shadow-md mx-auto p-2 mt-12 rounded-md text-gray-500 hidden text-base border border-gray-100">
                             <ul>
-                                <li><a class="flex items-center px-3 py-2 hover:bg-blue-100 hover:text-blue-500 rounded-md" href="/settings"> Account setting</a></li>
+                                <li><a class="flex items-center px-3 py-2 hover:bg-blue-100 hover:text-blue-500 rounded-md" href="/settings"> Account Setting</a></li>
                                 <li><a class="flex items-center px-3 py-2 hover:bg-blue-100 hover:text-blue-500 rounded-md" href="/profile/{{user_profile.user.username}}"> Profile </a></li>
-                                <li><a class="flex items-center px-3 py-2 hover:bg-blue-100 hover:text-blue-500 rounded-md" href="logout"> Log Out </a></li>
+                                <li><a class="flex items-center px-3 py-2 hover:bg-blue-100 hover:text-blue-500 rounded-md" href="/tasks"> To Do List </a></li>
+                                <li><a class="flex items-center px-3 py-2 hover:bg-blue-100 hover:text-blue-500 rounded-md" href="/calendar"> Calendar </a></li>
+                                <li><a class="flex items-center px-3 py-2 hover:bg-blue-100 hover:text-blue-500 rounded-md" href="/logout"> LogOut </a></li>
+
                             </ul>
                         </div>
                     </div>
                 </div>
         </header>
-
+        
         <!-- content -->
-            
+            <body class="bg-gray-100">
             <div class="lg:p-12 max-w-screen-lg lg:my-0 my-12 mx-auto p-6 space-y-0">
                 <h1 class="text-3xl leading-none text-gray-900 tracking-tight mt-3 text-center">
                     <a class="font-mono text-4xl"> Result </a>
