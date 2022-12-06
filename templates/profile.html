@@ -216,8 +216,8 @@
                                     focus:ring 
                                     focus:ring-blue-500 mx-2"> Account Settings </a>
               {% else %}
-              <a data-ripple=""  class="blue-500 px-4 py-2 
-                                    text-base
+                {% if button_text == 'Follow' %}
+              <a data-ripple=""  class="blue-500 px-4 py-2 text-base
                                     shadow
                                     font-medium
                                     text-white
@@ -229,8 +229,23 @@
                                     focus:ring 
                                     focus:ring-blue-500
                                     mx-2">
+                <button type="submit"> {{button_text}} </button> </a>
+                  {% else %}
+                <a data-ripple=""  class="px-6 py-3 
+                                            text-base
+                                            shadow
+                                            font-medium
+                                            text-red-500
+                                            bg-gray-50 bg-opacity-90
+                                            rounded-lg
+                                            hover:bg-opacity-100 hover:text-dark
+                                            duration-10
+                                            ease-in-out
+                                            focus:ring-2
+                                            focus:ring-red-400 mx-2">
                 <button type="submit"> {{button_text}} </button>
               </a>
+                {% endif %}
               {% endif %}
             </div>
           </form>
@@ -258,7 +273,7 @@
   </div>
   
   </body>
-
+  
 <!-- Footer -->
     <div class="lg:mb-5 py-3 uk-link-reset">
         <div class="flex flex-col items-center justify-between lg:flex-row max-w-6xl mx-auto lg:space-y-0 space-y-3">
