@@ -16,6 +16,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="{% static 'assets/js/uikit.js' %}"></script>
     <script src="{% static '../../unpkg.com/ionicons%405.2.3/dist/ionicons.js' %}"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <!-- Links -->
     <link rel="stylesheet" href="{% static 'assets/css/icons.css' %}" />
     <link rel="stylesheet" href="{% static 'assets/css/uikit.css' %}" />
@@ -143,6 +145,7 @@
                                 <li><a class="flex items-center px-3 py-2 hover:bg-blue-100 hover:text-blue-500 rounded-md" href="/profile/{{user_profile.user.username}}"> Profile </a></li>
                                 <li><a class="flex items-center px-3 py-2 hover:bg-blue-100 hover:text-blue-500 rounded-md" href="/tasks"> To Do List </a></li>
                                 <li><a class="flex items-center px-3 py-2 hover:bg-blue-100 hover:text-blue-500 rounded-md" href="/calendar"> Calendar </a></li>
+                                <li><a class="flex items-center px-3 py-2 hover:bg-blue-100 hover:text-blue-500 rounded-md" href="/chat"> Free Chat </a></li>
                                 <li><a class="flex items-center px-3 py-2 hover:bg-blue-100 hover:text-blue-500 rounded-md" href="/logout"> LogOut </a></li>
 
                             </ul>
@@ -170,13 +173,13 @@
                                     <span class="block capitalize font-semibold "> <a href="/profile/{{post.user}}">@{{post.user}}</a> </span>
                                 </div>
                                 <div>
-                                <a href="#"> <i class="icon-feather-more-horizontal text-2xl hover:bg-gray-200 rounded-full p-2 transition -mr-1 "></i> </a>
+                                <a href="#"> <ion-icon name="ellipsis-horizontal-outline" class="w-7 h-7"></ion-icon> </a>
                                 <div class="bg-white w-56 shadow-md mx-auto p-2 mt-12 rounded-md text-gray-500 hidden text-base border border-gray-100  " uk-drop="mode: hover;pos: top-right">
 
                                     <ul class="space-y-1">
                                         <li> 
-                                        <a href="#" class="flex items-center px-3 py-2 text-red-500 hover:bg-red-100 hover:text-red-500 rounded-md">
-                                            <i class="uil-trash-alt mr-1"></i> Delete </a> 
+                                        <a href="{{post.image.url}}" class="flex items-center px-3 py-2 text-sky-500 hover:bg-sky-100 hover:text-sky-500 rounded-md">
+                                            <ion-icon name="image-outline"></ion-icon> &nbsp; Image </a> 
                                         </li>
                                     </ul>
                                     </div>
@@ -193,20 +196,19 @@
                                 <div class="flex space-x-4 lg:font-bold">
                                     <a href="/like-post?post_id={{post.id}}" class="flex items-center space-x-2">
                                         <div class="p-2 rounded-full text-black">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="25" height="25" class="">
-                                                <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />    
-                                            </svg>
                                             {% if post.no_of_likes == 0 %}
-                                            <p>No likes</p>
+                                            <ion-icon name="heart-outline" class="w-7 h-7"></ion-icon>
+                                            <p class="">No likes</p>
                                             {% elif post.no_of_likes == 1 %}
-                                            <p>Liked by {{post.no_of_likes}} person</p>
+                                            <ion-icon name="heart" class="w-7 h-7 text-rose-600"></ion-icon>
+                                            <p class="">Liked by {{post.no_of_likes}} person</p>
                                             {% else %}
-                                            <p>Liked by {{post.no_of_likes}} people</p>
+                                            <p class="">Liked by {{post.no_of_likes}} people</p>
                                             {% endif %}   
                                         </div>
                                     </a>
                                     <a href="{{post.image.url}}" class="flex items-center space-x-2 flex-1 justify-end" download>
-                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="25" height="25" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16"><g fill="currentColor"><path d="M8.5 1.5A1.5 1.5 0 0 1 10 0h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h6c-.314.418-.5.937-.5 1.5v6h-2a.5.5 0 0 0-.354.854l2.5 2.5a.5.5 0 0 0 .708 0l2.5-2.5A.5.5 0 0 0 10.5 7.5h-2v-6z"/></g></svg>
+                                        <ion-icon name="download-outline" class="w-7 h-7"></ion-icon>
                                         
                                     </a>
                                 </div>
