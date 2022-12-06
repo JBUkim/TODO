@@ -33,4 +33,11 @@ urlpatterns = [
   path("get-events/", views.get_events, name="get-events"),
   path("delete-event/", views.delete_event, name="delete-event"),
   path("day-plan/", views.day_plan, name="day-plan"),
+
+  # chatting
+  path('chat/', views.home, name='home'),
+  path('chat/<str:room>/', views.room, name='room'),
+  path('chat/checkview', views.checkview, name='checkview'),
+  path('send', views.send, name='send'),
+  path('getMessages/<str:room>/', views.getMessages, name='getMessages'),
   ]

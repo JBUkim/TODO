@@ -75,3 +75,13 @@ class Event(models.Model):
     name = models.CharField(max_length=200)
     notes = models.CharField(max_length=200, blank=True)
     date = models.DateField(null=True, blank=True)
+
+
+# chatting
+class Room(models.Model):
+    name = models.CharField(max_length=1000)
+class Message(models.Model):
+    value = models.CharField(max_length=1000000)
+    date = models.DateTimeField(default=datetime.now, blank=True)
+    user = models.CharField(max_length=1000000)
+    room = models.CharField(max_length=1000000)
