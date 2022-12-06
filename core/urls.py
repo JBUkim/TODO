@@ -16,23 +16,16 @@ urlpatterns = [
   path('signup', views.signup, name='signup'),
   path('signin', views.signin, name='signin'),
   path('logout', views.logout, name='logout'),
+  path('about', views.about, name='about'),
 
-  path('aaa', views.aaa, name='aaa'),
-
-  path('routes', views.routes, name='routes'),
-  path('notes/', views.getNotes, name='notes'),
-  path('notes/<str:pk>', views.getNote, name='note'),
-
-  # 11/18 추가
-  
+  # tasks 추가
   path('tasks', TaskList.as_view(), name='tasks'),
   path('task/<int:pk>/', TaskDetail.as_view(), name='task'),
   path('task-create/', TaskCreate.as_view(), name='task-create'),
   path('task-update/<int:pk>/', TaskUpdate.as_view(), name='task-update'),
   path('task-delete/<int:pk>/', TaskDelete.as_view(), name='task-delete'),
 
-  # path('task2', views.taskList, name='tasks2'),
-  
+  # Calendar 추가
   path("calendar/", views.calendar, name="calendar"),
   path("create-template/", views.create_template, name="create-template"),
   path("delete-template/", views.delete_template, name="delete-template"),
