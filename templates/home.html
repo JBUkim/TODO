@@ -6,7 +6,7 @@
   <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="{% static 'images/fav.png' %}" rel="icon" type="image/png">
-    <title> Chatting </title>
+    <title> Free Chat </title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Scripts -->
@@ -56,11 +56,10 @@
                 md:px-[60px]
                 wow
                 fadeInUp">
-                <div class="mb-10 text-center font-mono text-5xl font-semibold">
-                  <form id="post-form" method="POST" action="checkview">
+            <form id="post-form" method="POST" action="checkview">
               <div class="mb-10 text-center font-mono text-5xl font-semibold">
                 <h1>
-                  Chatting
+                  Free Chat
                 </h1>
               </div>
           {% csrf_token %}
@@ -80,7 +79,7 @@
                       focus:border-primary
                       transition"/> </div>
                       <div class="mb-6">
-          <input type="text" name="username" id="username" placeholder="Username" class="w-full
+                      <input type="text" name="username" id="username" placeholder="Username" class="w-full
                       rounded-md
                       border
                       border-[#E9EDF4]
@@ -93,8 +92,9 @@
                       focus-visible:shadow-none
                       focus:border-primary
                       transition"/>
-          </div>
-          <input type="submit" value="Enter Room" class="bg-gradient-to-br from-blue-500
+                      </div>
+                      <div class="mb-6">
+                      <input type="submit" value="Enter Room" class="bg-gradient-to-br from-blue-500
                       rounded-md text-white text-xl to-red-400 w-full
                       border
                       bordder-primary
@@ -109,9 +109,17 @@
                       ease-in-out
                       focus:outline-none focus:ring focus:ring-blue-300
                       font-mono">
-      </form>
+                      </div>
+                      </form>
+                        <div class="text-center mt-5 space-x-2">
+                          <a class="text-base inline-block mb-2 text-[#adadad] hover:text-primary">
+                            Please enter your </a> <br />
+                            <p class="text-base inline-block mb-2 text-[#adadad] hover:text-primary"> <a href="#" class="text-primary text-blue-300 hover:underline">Room</a> and 
+                              <a href="#" class="text-primary text-blue-300 hover:underline">Username</a> 
+                            </p>
+                          
+                        </div>
   </div>
-</div> 
 </div>
 </body>
 

@@ -6,7 +6,7 @@
   <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="{% static 'images/fav.png' %}" rel="icon" type="image/png">
-    <title> Chatting </title>
+    <title>Chatting Room: {{room}} </title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Scripts -->
@@ -83,7 +83,7 @@ setInterval(function(){
 </script>
 
 
-<div class="p-2 grid justify-items-center">
+<div class="p-2 grid place-content-center justify-center">
     <form id="post-form">
         {% csrf_token %}
         <input type="hidden" name="username" id="username" value="{{username}}"/>
